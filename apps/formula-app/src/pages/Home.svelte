@@ -12,4 +12,7 @@
   <li>
     <a href='/table' use:link>Dynamic Form</a>
   </li>
+  <li>
+    <a href='/group' use:link>Group</a>
+  </li>
 </ul>

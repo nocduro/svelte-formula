@@ -70,12 +70,17 @@ export function createGroup<T extends Record<string, unknown | unknown[]>>(
    * @param node
    */
   function setupGroupContainer(node: HTMLElement) {
-    globalObserver = new MutationObserver((mutations) => {
+    const containerObserver = new MutationObserver((mutations) => {
       destroyGroup();
       const rows = node.querySelectorAll(':scope > *');
       groupHasChanged(Array.from(rows) as HTMLElement[]);
+      globalObserver = null;
+      containerObserver.disconnect();
     });
-    globalObserver.observe(node, { childList: true });
+    if (!globalObserver) {
+      globalObserver = containerObserver;
+      containerObserver.observe(node, { childList: true });
+    }
 
     const rows = node.querySelectorAll(':scope > *');
     groupHasChanged(Array.from(rows) as HTMLElement[]);
